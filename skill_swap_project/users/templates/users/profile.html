@@ -1,0 +1,26 @@
+<h2>{{ profile.user.username }}'s Profile</h2>
+<p>Location: {{ profile.location }}</p>
+<p>Availability: {{ profile.availability }}</p>
+<p>Profile Public: {{ profile.is_profile_public }}</p>
+
+<h3>Skills Offered:</h3>
+<ul>
+  {% for skill in profile.skills_offered.all %}
+    <li>{{ skill.name }}</li>
+  {% empty %}
+    <li>No skills listed</li>
+  {% endfor %}
+</ul>
+
+<h3>Skills Wanted:</h3>
+<ul>
+  {% for skill in profile.skills_wanted.all %}
+    <li>{{ skill.name }}</li>
+  {% empty %}
+    <li>No skills requested</li>
+  {% endfor %}
+</ul>
+
+{% if profile.profile_photo %}
+    <img src="{{ profile.profile_photo.url }}" width="150" />
+{% endif %}

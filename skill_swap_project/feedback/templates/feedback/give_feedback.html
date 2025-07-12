@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Give Feedback</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f2f5f9;
+            padding: 30px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        label {
+            font-weight: 500;
+            margin-top: 10px;
+            display: block;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            margin-top: 6px;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #fdfdfd;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .swap-info {
+            margin-bottom: 25px;
+            background-color: #eef6ff;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            border-radius: 8px;
+        }
+
+        .swap-info strong {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Leave Feedback</h2>
+
+    <div class="swap-info">
+        You participated in a swap:<br>
+        <strong>{{ swap.sender.username }}</strong> ⇄ <strong>{{ swap.receiver.username }}</strong><br>
+        (<strong>{{ swap.offered_skill }}</strong> ↔ <strong>{{ swap.wanted_skill }}</strong>)
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Feedback</button>
+    </form>
+</div>
+
+</body>
+</html>

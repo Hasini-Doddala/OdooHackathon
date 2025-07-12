@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Swap Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f3f3f3;
+        }
+
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .request-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-left: 5px solid #4CAF50;
+            border-radius: 8px;
+            margin: 10px 0;
+            padding: 15px;
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .request-card.received { border-left-color: #2196F3; }
+        .request-card.rejected { border-left-color: #f44336; }
+        .request-card.cancelled { border-left-color: #9e9e9e; }
+        .request-card.accepted { border-left-color: #4CAF50; }
+
+        .request-status {
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .request-actions a {
+            margin-right: 10px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+            font-size: 0.9em;
+        }
+
+        .accept-btn { background-color: #4CAF50; }
+        .reject-btn { background-color: #f44336; }
+        .cancel-btn { background-color: #9e9e9e; }
+
+        .empty-msg {
+            font-style: italic;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<h2>📤 Sent Requests</h2>
+{% if sent_requests %}
+    {% for swap in sent_requests %}
+        <div class="request-card {{ swap.status }}">
+            You offered <strong>{{ swap.offered_skill }}</strong>
+            for <strong>{{ swap.receiver.username }}'s {{ swap.wanted_skill }}</strong><br>
+            <span class="request-status">Status: {{ swap.status }}</span>
+            {% if swap.status == 'pending' %}
+                <div class="request-actions">
+                    <a href="{% url 'update_swap' swap.id 'cancel' %}" class="cancel-btn">Cancel</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p class="empty-msg">No sent requests.</p>
+{% endif %}
+
+<h2>📥 Received Requests</h2>
+{% if received_requests %}
+    {% for swap in received_requests %}
+        <div class="request-card {{ swap.status }}">
+            <strong>{{ swap.sender.username }}</strong> offers <strong>{{ swap.offered_skill }}</strong>
+            for your <strong>{{ swap.wanted_skill }}</strong><br>
+            <span class="request-status">Status: {{ swap.status }}</span>
+            {% if swap.status == 'pending' %}
+                <div class="request-actions">
+                    <a href="{% url 'update_swap' swap.id 'accept' %}" class="accept-btn">Accept</a>
+                    <a href="{% url 'update_swap' swap.id 'reject' %}" class="reject-btn">Reject</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p class="empty-msg">No received requests.</p>
+{% endif %}
+
+</body>
+</html>
